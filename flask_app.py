@@ -49,6 +49,12 @@ def make_tables_pretty(html_content):
 
     return soup.prettify()
 
+
+def get_description(item):
+    soup = BeautifulSoup(item['description'], features='html.parser')
+    return soup.getText()
+
+
 def main():
     today = datetime.datetime.now()
     thirty_days_from_today = today + datetime.timedelta(30)
@@ -70,12 +76,6 @@ def main():
 
     sorted_response_json = sorted(filtered_response_json, key=lambda x: x['start'])
     table = [['Date', 'Start Time', 'End Time', 'Name', 'Description']]
-
-
-    def get_description(item):
-        soup = BeautifulSoup(item['description'], features='html.parser')
-        return soup.getText()
-
 
     for item in sorted_response_json:
         start = get_epoch_time_from_earlyon_format(item['start'])
